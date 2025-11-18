@@ -38,7 +38,8 @@ AI_Review_Analyzer/
 │   ├── app.py
 │   ├── templates/
 │   ├── static/
-│   └── data/review_history.csv
+│   └── data/
+│       └── review_history.csv
 │
 ├── models/
 │   ├── sentiment_model.pkl
@@ -46,10 +47,11 @@ AI_Review_Analyzer/
 │   ├── fake_model.pkl
 │   └── fake_vectorizer.pkl
 │
-├── dataset/        → Source datasets used for training
-├── scripts/        → Training notebooks / helper scripts
+├── dataset/        # source datasets used for training
+├── scripts/        # training notebooks / helper scripts
 ├── requirements.txt
 └── README.md
+
 
 ▶️ Run Locally
 1️⃣ Install dependencies
