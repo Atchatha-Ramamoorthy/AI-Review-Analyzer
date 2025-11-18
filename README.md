@@ -31,7 +31,7 @@ The system also stores results in a History dashboard that users can revisit.
 | Frontend      | HTML, CSS, Bootstrap                     |
 | Storage       | CSV (for history)                        |
 
-📂 Project Structure
+📂 Project Structure 
 AI_Review_Analyzer/
 │
 ├── Flaskapp/
