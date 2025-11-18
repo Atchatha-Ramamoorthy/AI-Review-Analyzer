@@ -1,0 +1,5 @@
+from pathlib import Path
+print(list((Path(__file__).resolve().parents[1] / "models").glob("*.pkl")))
+# or shorter:
+print(list(Path("../models").glob("*.pkl")))
+exit()

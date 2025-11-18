@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}History • AI Review Analyzer{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>Analysis History</h1>
+    <p>Recent reviews you have analyzed.</p>
+</section>
+
+<section class="history-section">
+    {% if rows and rows|length > 0 %}
+        <div class="history-table-wrapper">
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Review</th>
+                        <th>Sentiment</th>
+                        <th>Confidence</th>
+                        <th>Authenticity</th>
+                        <th>Confidence</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for r in rows %}
+                    <tr>
+                        <td>{{ r.timestamp }}</td>
+                        <td class="history-review">
+                            {{ r.review }}
+                        </td>
+                        <td>
+                            <span class="badge badge-pill {% if r.sentiment == 'Positive' %}badge-positive{% else %}badge-negative{% endif %}">
+                                {{ r.sentiment }}
+                            </span>
+                        </td>
+                        <td>{{ r.sentiment_prob }}%</td>
+                        <td>
+                            <span class="badge badge-pill {% if r.authenticity == 'Genuine' %}badge-genuine{% else %}badge-fake{% endif %}">
+                                {{ r.authenticity }}
+                            </span>
+                        </td>
+                        <td>{{ r.authenticity_prob }}%</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p class="empty-state">
+            No history yet. Analyze a review first and it will appear here.
+        </p>
+    {% endif %}
+</section>
+{% endblock %}

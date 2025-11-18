@@ -1,0 +1,6 @@
+timestamp,review,sentiment,sentiment_prob,authenticity,authenticity_prob
+2025-11-18 00:41,its good,Positive,62.4,Genuine,95.3
+2025-11-18 01:08,kmdksd,Negative,51.3,Genuine,95.3
+2025-11-18 01:18,"Amazing product!!! Best ever!!! Click now, limited offer, unbelievable discount!",Positive,53.9,Fake,89.0
+2025-11-18 18:11,battery quality is supper,Negative,50.2,Genuine,97.7
+2025-11-18 18:36,worst product,Negative,56.2,Genuine,77.7

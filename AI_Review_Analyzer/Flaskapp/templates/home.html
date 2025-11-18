@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block title %}AI Review Analyzer | Atchatha{% endblock %}
+
+{% block content %}
+<section class="hero-section">
+    <div class="hero-inner">
+        <h1 class="hero-title">AI-Powered Product Review Analyzer</h1>
+        <p class="hero-subtitle">
+            Paste any product review and instantly get
+            <strong>Sentiment</strong> and <strong>Fake / Genuine</strong>
+            prediction using NLP and Machine Learning.
+        </p>
+
+        <div class="card analyze-card">
+            <div class="card-header">
+                <h2>Analyze a Review</h2>
+                <p>Enter a product review below and click <strong>Analyze</strong>.</p>
+            </div>
+
+            {% if error %}
+            <div class="alert alert-error">
+                {{ error }}
+            </div>
+            {% endif %}
+
+            <form method="POST" action="{{ url_for('analyze') }}">
+                <label for="review" class="field-label">Review text</label>
+                <textarea
+                    id="review"
+                    name="review"
+                    rows="6"
+                    placeholder="Example: The camera quality is amazing and battery lasts two days."
+                    required
+                >{{ request.form.review or "" }}</textarea>
+
+                <div class="sample-row">
+                    <span class="sample-label">Try a sample:</span>
+                    <button type="button" class="chip chip-outline"
+                            data-sample="The camera quality is amazing and battery lasts two days. Best purchase ever!">
+                        Positive
+                    </button>
+                    <button type="button" class="chip chip-outline"
+                            data-sample="The product stopped working after two days and customer service was terrible.">
+                        Negative
+                    </button>
+                    <button type="button" class="chip chip-outline"
+                            data-sample="Amazing product!!! Best ever!!! Click now, limited offer, unbelievable discount!">
+                        Suspicious / Fake
+                    </button>
+                </div>
+
+                <button type="submit" class="btn-primary analyze-btn">
+                    Analyze
+                </button>
+            </form>
+        </div>
+
+        <div class="card how-card">
+            <h2>How it works</h2>
+            <div class="how-grid">
+                <div>
+                    <h3>1. Input</h3>
+                    <p>You enter or paste a review into the web form.</p>
+                </div>
+                <div>
+                    <h3>2. NLP + ML</h3>
+                    <p>Text is transformed using TF-IDF and passed into trained ML models for sentiment and authenticity.</p>
+                </div>
+                <div>
+                    <h3>3. Output</h3>
+                    <p>The system predicts <strong>Sentiment</strong> and <strong>Authenticity</strong> for the review.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    // Sample buttons -> fill textarea
+    const sampleButtons = document.querySelectorAll("[data-sample]");
+    const reviewBox = document.getElementById("review");
+
+    sampleButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            reviewBox.value = btn.getAttribute("data-sample");
+            reviewBox.focus();
+        });
+    });
+</script>
+{% endblock %}

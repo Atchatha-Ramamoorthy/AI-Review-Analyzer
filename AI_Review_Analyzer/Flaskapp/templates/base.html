@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>AI Review Analyzer | Atchatha</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-brand">AI Review Analyzer</div>
+    <nav class="nav-links">
+      <a href="{{ url_for('home') }}">Home</a>
+      <a href="{{ url_for('home') }}#how-it-works">How it works</a>
+      <a href="{{ url_for('history') }}">History</a>
+    </nav>
+  </header>
+
+  <main class="page-wrapper">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer">
+    <p>Developed by <strong>Atchatha Ramamoorthy</strong> · MSc Computer Science</p>
+  </footer>
+</body>
+</html>
