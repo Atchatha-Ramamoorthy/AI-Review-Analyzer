@@ -4,3 +4,26 @@ timestamp,review,sentiment,sentiment_prob,authenticity,authenticity_prob
 2025-11-18 01:18,"Amazing product!!! Best ever!!! Click now, limited offer, unbelievable discount!",Positive,53.9,Fake,89.0
 2025-11-18 18:11,battery quality is supper,Negative,50.2,Genuine,97.7
 2025-11-18 18:36,worst product,Negative,56.2,Genuine,77.7
+2025-11-18 23:47,worst,Negative,61.6,Genuine,96.0
+2025-11-19 07:28,this is one supper product,Positive,54.5,Genuine,77.7
+2025-11-19 07:42,worst,Negative,61.6,Genuine,96.0
+2025-11-19 07:51,nice product,Positive,69.4,Genuine,77.0
+2025-11-19 08:42,one of the best product,Negative,53.1,Genuine,52.0
+2025-11-19 08:42,good product,Positive,62.3,Genuine,77.0
+2025-11-19 08:43,nice product,Positive,69.4,Genuine,77.0
+2025-11-19 08:44,"Very Good Monitor, worth buying. I liked it so much.",Positive,58.2,Genuine,97.7
+2025-11-19 08:44,Good 👍,Positive,62.4,Genuine,95.3
+2025-11-19 08:45,"Just got it, Good at this price range, height is not adjustable, but unlike some else said in a review, the tilt is adjustable(not too much).",Negative,54.4,Genuine,81.0
+2025-11-19 08:45,"Coder don't buy this monitor text is not sharp , it is good for gamers and music lovers",Positive,60.0,Genuine,67.3
+2025-11-19 08:46,"Awesome clear picture, mind blowing purchase, easy and fantastic mounting on stand, Sound is good enough for me, superb video playing. I'm truly satisfied with the Acer monitor. At least one more HDMI port should be provided for ease. Overall a fantastic purchase guys. Just for a budget purchase, go for it.",Positive,69.8,Genuine,74.3
+2025-11-19 08:46,"Great value and good monitor.
+Also didnt expect the sound to be this good",Positive,64.6,Genuine,98.3
+2025-11-19 08:47,There was a problem with the monitor's speaker.,Positive,57.9,Genuine,99.0
+2025-11-19 08:48,"Vivo just like waw
+I never expected🔥🔥🔥
+Just looking like a waw
+Go for it
+Vivo back to back bang on 🥰🥰",Positive,61.6,Genuine,71.7
+2025-11-19 08:48,worst product,Negative,56.2,Genuine,77.7
+2025-11-19 08:48,don't buy it,Negative,51.3,Genuine,67.3
+2025-11-19 12:21,tHE PRODUCT IS GOOD,Positive,62.1,Genuine,83.0

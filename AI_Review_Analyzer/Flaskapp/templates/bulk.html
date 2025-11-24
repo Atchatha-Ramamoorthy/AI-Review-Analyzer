@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Bulk Analysis – AI Review Analyzer{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="section-header">
+        <h2>Bulk Review Analysis <span class="badge badge-soft">Optional</span></h2>
+        <p>
+            This page is reserved for future work where multiple reviews (e.g., from a CSV file)
+            can be analyzed in one go. For the current project scope, single-review analysis
+            and history tracking are fully implemented and evaluated.
+        </p>
+    </div>
+
+    <div class="card">
+        <h3>Feature planned (Future Work)</h3>
+        <p>
+            In the next version, this page could allow you to:
+        </p>
+        <ul class="feature-list">
+            <li>📂 Upload a CSV file containing many reviews</li>
+            <li>⚙️ Automatically run Sentiment & Authenticity prediction for each review</li>
+            <li>📊 Export the results as a new CSV / Excel file</li>
+        </ul>
+        <p class="note">
+            For now, please use the <strong>single review analyzer</strong> on the Home page and
+            view all past analyses in the <strong>History</strong> tab.
+        </p>
+
+        <a href="{{ url_for('home') }}" class="btn btn-primary">Back to Home</a>
+        <a href="{{ url_for('history') }}" class="btn btn-secondary btn-ghost">View History</a>
+    </div>
+</section>
+{% endblock %}

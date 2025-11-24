@@ -1,0 +1,254 @@
+{% extends "base.html" %}
+
+{% block title %}How it works – AI Review Analyzer{% endblock %}
+
+{% block content %}
+<main class="page how-it-works-page">
+    <section class="section section-hero">
+        <div class="section-header">
+            <h1>How the AI Review Analyzer Works</h1>
+            <!-- Step Progress Timeline -->
+<div class="how-timeline">
+  <div class="step done">
+    <div class="step-circle">1</div>
+    <div class="step-label">User Input</div>
+  </div>
+  <div class="step done">
+    <div class="step-line"></div>
+    <div class="step-circle">2</div>
+    <div class="step-label">Pre-processing</div>
+  </div>
+  <div class="step done">
+    <div class="step-line"></div>
+    <div class="step-circle">3</div>
+    <div class="step-label">TF-IDF Features</div>
+  </div>
+  <div class="step done">
+    <div class="step-line"></div>
+    <div class="step-circle">4</div>
+    <div class="step-label">ML Prediction</div>
+  </div>
+</div>
+
+            <p class="section-subtitle">
+                This page explains how the system predicts <strong>Sentiment</strong>,
+                <strong>Authenticity</strong> and the <strong>confidence percentage</strong>
+                for each review.
+            </p>
+        </div>
+
+        <div class="flow-grid">
+            <div class="flow-card">
+                <div class="flow-icon">📝</div>
+                <h3>1. User Input</h3>
+                <p>
+                    You type or paste a product review into the text box on the Home page
+                    and click the <strong>Analyze</strong> button. The review text is sent to
+                    the Flask backend.
+                </p>
+            </div>
+
+            <div class="flow-card">
+                <div class="flow-icon">🧹</div>
+                <h3>2. Text Pre-processing</h3>
+                <ul>
+                    <li>Converted to lower case</li>
+                    <li>Punctuation and extra spaces are removed</li>
+                    <li>Common stopwords (e.g. “the”, “is”, “and”) removed</li>
+                    <li>Words are normalised / lemmatized</li>
+                </ul>
+                <p class="note">
+                    This helps the models focus on the most important words in the review.
+                </p>
+            </div>
+
+            <div class="flow-card">
+                <div class="flow-icon">📊</div>
+                <h3>3. TF-IDF Feature Extraction</h3>
+                <p>
+                    The cleaned text is converted into a numeric vector using
+                    <strong>TF-IDF (Term Frequency – Inverse Document Frequency)</strong>.
+                    Each word gets a weight showing how important it is in this review
+                    compared to all reviews in the training data.
+                </p>
+            </div>
+
+            <div class="flow-card">
+                <div class="flow-icon">🤖</div>
+                <h3>4. Machine Learning Models</h3>
+                <p>
+                    Two separate <strong>Logistic Regression</strong> models are used:
+                </p>
+                <ul>
+                    <li><strong>Sentiment model</strong> → Positive / Negative</li>
+                    <li><strong>Authenticity model</strong> → Genuine / Fake</li>
+                </ul>
+                <p class="note">
+                    Both models take the same TF-IDF vector as input and output probabilities
+                    for each class.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sentiment section -->
+    <section class="section">
+        <div class="section-header">
+            <h2>How Sentiment (Positive / Negative) is Decided</h2>
+            <p>
+                The sentiment model has learned which words and patterns usually appear
+                in positive vs negative reviews.
+            </p>
+        </div>
+
+        <div class="two-column">
+            <div class="word-card positive-card">
+                <h3>Words linked with <span class="badge badge-positive">Positive</span></h3>
+                <p>These words push the probability towards <strong>Positive</strong>:</p>
+                <div class="word-chip-row">
+                    <span class="chip">amazing</span>
+                    <span class="chip">excellent</span>
+                    <span class="chip">good</span>
+                    <span class="chip">worth</span>
+                    <span class="chip">love</span>
+                    <span class="chip">satisfied</span>
+                    <span class="chip">perfect</span>
+                </div>
+                <p class="example-title">Example</p>
+                <p class="example-box">
+                    “The camera quality is <strong>amazing</strong> and the battery life is
+                    <strong>good</strong>.”
+                </p>
+                <p class="example-note">
+                    → Many positive words → model predicts
+                    <strong>Positive</strong> with high confidence.
+                </p>
+            </div>
+
+            <div class="word-card negative-card">
+                <h3>Words linked with <span class="badge badge-negative">Negative</span></h3>
+                <p>These words push the probability towards <strong>Negative</strong>:</p>
+                <div class="word-chip-row">
+                    <span class="chip">worst</span>
+                    <span class="chip">bad</span>
+                    <span class="chip">broken</span>
+                    <span class="chip">disappointed</span>
+                    <span class="chip">terrible</span>
+                    <span class="chip">waste</span>
+                    <span class="chip">poor</span>
+                </div>
+                <p class="example-title">Example</p>
+                <p class="example-box">
+                    “Battery life is the <strong>worst</strong> and the speaker quality is
+                    <strong>bad</strong>.”
+                </p>
+                <p class="example-note">
+                    → Strong negative words → model predicts
+                    <strong>Negative</strong>.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Authenticity section -->
+    <section class="section">
+        <div class="section-header">
+            <h2>How Fake / Genuine is Decided</h2>
+            <p>
+                The authenticity model looks at writing style and patterns often used in
+                fake reviews compared to genuine customer opinions.
+            </p>
+        </div>
+
+        <div class="two-column">
+            <div class="word-card genuine-card">
+                <h3>Pattern of a <span class="badge badge-genuine">Genuine</span> review</h3>
+                <ul>
+                    <li>Balanced: mentions both pros and cons</li>
+                    <li>Natural, conversational language</li>
+                    <li>Specific details about real usage</li>
+                </ul>
+                <p class="example-title">Example of Genuine</p>
+                <p class="example-box">
+                    “Camera quality is great for daylight photos but the night photos are
+                    just okay. Battery lasts one full day, which is fine for me.”
+                </p>
+            </div>
+
+            <div class="word-card fake-card">
+                <h3>Pattern of a <span class="badge badge-fake">Fake</span> review</h3>
+                <ul>
+                    <li>Too promotional or exaggerated praise</li>
+                    <li>Repeats marketing phrases and keywords</li>
+                    <li>Often includes “call-to-action” style sentences</li>
+                </ul>
+                <p class="example-title">Example of Fake</p>
+                <p class="example-box">
+                    “<strong>Amazing product!!! Best ever!!!</strong> Unbelievable offer,
+                    <strong>buy now</strong> before it’s gone! <strong>Must buy!!!</strong>”
+                </p>
+                <p class="example-note">
+                    → Sounds like an advertisement → model predicts
+                    <strong>Fake</strong>.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Probability / confidence visual -->
+    <section class="section">
+        <div class="section-header">
+            <h2>How Confidence Percentage is Calculated</h2>
+            <p>
+                Logistic Regression outputs a probability for each label. The label with
+                the higher probability becomes the final prediction, and this probability
+                is shown as the confidence percentage.
+            </p>
+        </div>
+
+        <div class="prob-card">
+            <h3>Example: Sentiment probabilities</h3>
+            <p class="prob-caption">
+                Review: “The product is really great”
+            </p>
+
+            <div class="prob-bars">
+                <div class="prob-row">
+                    <span class="prob-label badge badge-positive">Positive</span>
+                    <div class="prob-bar-wrap">
+                        <div class="prob-bar positive" style="width: 62%;"></div>
+                    </div>
+                    <span class="prob-value">62.4%</span>
+                </div>
+                <div class="prob-row">
+                    <span class="prob-label badge badge-negative">Negative</span>
+                    <div class="prob-bar-wrap">
+                        <div class="prob-bar negative" style="width: 38%;"></div>
+                    </div>
+                    <span class="prob-value">37.6%</span>
+                </div>
+            </div>
+
+            <p class="example-note">
+                The model chooses <strong>Positive</strong> because it has the higher
+                probability. This value (62.4%) is displayed as the confidence score in
+                the result page and in the History table.
+            </p>
+        </div>
+    </section>
+
+    <!-- Summary -->
+    <section class="section section-summary">
+        <div class="summary-card">
+            <h2>Summary</h2>
+            <ul>
+                <li><strong>Words</strong> in the review are cleaned and converted into TF-IDF numbers.</li>
+                <li>The <strong>sentiment model</strong> learns which words indicate positive or negative feeling.</li>
+                <li>The <strong>authenticity model</strong> learns which patterns look genuine or fake.</li>
+                <li>Both models output probabilities; the highest value becomes the prediction.</li>
+                <li>These probabilities are shown to you as <strong>confidence percentages</strong>.</li>
+            </ul>
+        </div>
+    </section>
+</main>
+{% endblock %}

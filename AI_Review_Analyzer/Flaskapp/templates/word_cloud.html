@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}Word Cloud Insights – AI Review Analyzer{% endblock %}
+
+{% block content %}
+<main class="page wc-page">
+  <section class="section">
+    <div class="section-block">
+    <div class="section-header">
+      <h1>Word Cloud Insights</h1>
+      <p>
+        This page shows which words appear most often in
+        <strong>Positive vs Negative</strong> reviews and
+        <strong>Genuine vs Fake</strong> reviews, based on your analysis history.
+      </p>
+    </div>
+
+    {% if not pos_words and not neg_words and not gen_words and not fake_words %}
+      <p class="empty-state">
+        No history data yet. Please analyze some reviews first – then the word clouds
+        will be generated automatically from your <strong>History</strong>.
+      </p>
+    {% else %}
+
+    <div class="wc-grid">
+      <!-- Sentiment cloud -->
+      <div class="wc-card">
+        <h2>Sentiment – Positive Reviews</h2>
+        <p class="wc-note">Words that frequently appear in reviews predicted as <strong>Positive</strong>.</p>
+        <div class="wc-cloud">
+          {% for item in pos_words %}
+            <span class="wc-word wc-{{ item.size }} wc-positive">
+              {{ item.word }}
+            </span>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="wc-card">
+        <h2>Sentiment – Negative Reviews</h2>
+        <p class="wc-note">Words that frequently appear in reviews predicted as <strong>Negative</strong>.</p>
+        <div class="wc-cloud">
+          {% for item in neg_words %}
+            <span class="wc-word wc-{{ item.size }} wc-negative">
+              {{ item.word }}
+            </span>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Authenticity cloud -->
+      <div class="wc-card">
+        <h2>Authenticity – Genuine Reviews</h2>
+        <p class="wc-note">Words that often occur in reviews classified as <strong>Genuine</strong>.</p>
+        <div class="wc-cloud">
+          {% for item in gen_words %}
+            <span class="wc-word wc-{{ item.size }} wc-genuine">
+              {{ item.word }}
+            </span>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="wc-card">
+        <h2>Authenticity – Fake Reviews</h2>
+        <p class="wc-note">Words that often appear in reviews classified as <strong>Fake</strong>.</p>
+        <div class="wc-cloud">
+          {% for item in fake_words %}
+            <span class="wc-word wc-{{ item.size }} wc-fake">
+              {{ item.word }}
+            </span>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    {% endif %}
+</div>
+  </section>
+</main>
+{% endblock %}

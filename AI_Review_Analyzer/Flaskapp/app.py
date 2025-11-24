@@ -2,14 +2,14 @@ from flask import Flask, render_template, request, redirect, url_for
 from pathlib import Path
 import joblib
 import logging
-import numpy as np   # <<--- MAKE SURE THIS LINE IS HERE
+import numpy as np   
 import csv
 from datetime import datetime
+from collections import Counter
+import re
 
 
-# -------------------------------------------------
-# Flask app setup
-# -------------------------------------------------
+
 app = Flask(
     __name__,
     template_folder="templates",
@@ -19,21 +19,11 @@ app = Flask(
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger(__name__)
 
-# -------------------------------------------------
-# Paths and model loading
-# -------------------------------------------------
-# app.py location: AI_Review_Analyzer / Flaskapp / app.py
-# models location: AI_Review_Analyzer / models / *.pkl
 
-# BASE_DIR -> C:\Users\fcgoa\AI_Review_Analyzer
-
-
-APP_DIR = Path(__file__).resolve().parent              # /Flaskapp
-BASE_DIR = APP_DIR.parent                              # /AI_Review_Analyzer
-MODELS_DIR = BASE_DIR / "models"                       # /AI_Review_Analyzer/models
-HISTORY_FILE = APP_DIR / "data" / "review_history.csv" # /Flaskapp/data/review_history.csv
-
-
+APP_DIR = Path(__file__).resolve().parent              
+BASE_DIR = APP_DIR.parent                              
+MODELS_DIR = BASE_DIR / "models"                       
+HISTORY_FILE = APP_DIR / "data" / "review_history.csv" 
 
 
 def load_or_die(path: Path, name: str):
@@ -63,10 +53,6 @@ except Exception as e:
     # Stop the app if models are missing
     raise
 
-
-# -------------------------------------------------
-# Helper prediction functions
-# -------------------------------------------------
 def predict_sentiment(review_text: str):
     vec = SENTIMENT_VECT.transform([review_text])
     probs = SENTIMENT_MODEL.predict_proba(vec)[0]
@@ -111,10 +97,18 @@ def log_review(result: dict) -> None:
             f"{result['authenticity_prob']:.1f}",
         ])
 
+STOPWORDS = {
+    "the","a","an","is","am","are","was","were","and","or","of","to","in",
+    "it","this","that","for","on","with","as","at","by","from","very",
+    "i","we","you","he","she","they","my","our","your","their","but",
+    "so","just","too","also","if","be","have","has","had","its"
+}
 
-# -------------------------------------------------
-# Routes
-# -------------------------------------------------
+def tokenize(text: str):
+    """Lowercase + simple word split + stopword removal."""
+    tokens = re.findall(r"[a-zA-Z']+", text.lower())
+    return [t for t in tokens if t not in STOPWORDS and len(t) > 2]
+
 @app.route("/", methods=["GET"])
 def home():
     """Main page with big textarea + Analyze button."""
@@ -170,7 +164,8 @@ def about():
 @app.route("/how_it_works", methods=["GET"])
 def how_it_works():
     """Explain pipeline: Input -> NLP/ML -> Output."""
-    return render_template("history.html")
+    return render_template("how_it_works.html")
+
 
 @app.route("/history", methods=["GET"])
 def history():
@@ -183,6 +178,69 @@ def history():
 
     return render_template("history.html", rows=rows)
 
+@app.route("/word_cloud", methods=["GET"])
+def word_cloud():
+    """
+    Build simple 'word cloud' style insights from the history:
+    - words that appear often in Positive vs Negative reviews
+    - words that appear often in Genuine vs Fake reviews
+    """
+    pos_counter = Counter()
+    neg_counter = Counter()
+    gen_counter = Counter()
+    fake_counter = Counter()
+
+    if HISTORY_FILE.exists():
+        with HISTORY_FILE.open(encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                review_text = row.get("review", "")
+                sentiment = row.get("sentiment", "")
+                authenticity = row.get("authenticity", "")
+
+                words = tokenize(review_text)
+
+                # sentiment words
+                if sentiment == "Positive":
+                    pos_counter.update(words)
+                elif sentiment == "Negative":
+                    neg_counter.update(words)
+
+                # authenticity words
+                if authenticity == "Genuine":
+                    gen_counter.update(words)
+                elif authenticity == "Fake":
+                    fake_counter.update(words)
+
+    def make_cloud(counter: Counter, max_words: int = 30):
+        items = counter.most_common(max_words)
+        if not items:
+            return []
+        max_count = items[0][1]
+        cloud = []
+        for word, cnt in items:
+            ratio = cnt / max_count
+            if ratio > 0.66:
+                size = "large"
+            elif ratio > 0.33:
+                size = "medium"
+            else:
+                size = "small"
+            cloud.append({"word": word, "count": cnt, "size": size})
+        return cloud
+
+    pos_words = make_cloud(pos_counter)
+    neg_words = make_cloud(neg_counter)
+    gen_words = make_cloud(gen_counter)
+    fake_words = make_cloud(fake_counter)
+
+    return render_template(
+        "word_cloud.html",
+        pos_words=pos_words,
+        neg_words=neg_words,
+        gen_words=gen_words,
+        fake_words=fake_words,
+    )
 
 
 @app.route("/bulk", methods=["GET"])
